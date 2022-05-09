@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Blueprint
+from flask import Flask, render_template, request, Blueprint, jsonify
 import logging
 from config import *
 from utils import LoadJSON
@@ -73,3 +73,13 @@ def user_page(username):
     except JSONDecodeError:
         logger.info("Не удалось открыть файл JSON")
         return "Не удалось открыть файл JSON"
+
+
+@main_blueprint.route('/api/posts')
+def api_post():
+    return jsonify(LoadJSON(DATA_PATH).get_posts())
+
+
+@main_blueprint.route('/api/post/<int:pk>')
+def api_post_pk(pk):
+    return jsonify(LoadJSON(DATA_PATH).get_post_by_pk(pk))

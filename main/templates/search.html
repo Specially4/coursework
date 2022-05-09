@@ -34,14 +34,14 @@
       {% for item in data %}
         <div class="items__item item">
             <div class="item__top">
-              <a href="/user-feed" class="item__head">
+              <a href="/users/{{ item.poster_name }}" class="item__head">
                 <div class="item__ava-wrap">
                   <img src="{{ item.poster_avatar }}" alt="" class="item__ava" width="47">
                 </div>
                 <span class="item__username">{{ item.poster_name }}</span>
               </a>
             </div>
-            <a href="/post.html" class="item__post-link">
+            <a href="/post/{{ item.pk }}" class="item__post-link">
               <img src="{{ item.pic }}" alt="" width="348" class="item__post-img">
             </a>
             <p class="item__descr">{{ item.content }}</p>

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SKYPROGRAM</title>
-  <link href="../../static/css/styles.min.css" rel="stylesheet">
+  <link href="./static/css/styles.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
                 <span class="item__username">{{ item.poster_name }}</span>
               </a>
             </div>
-            <a href="/post.html" class="item__post-link">
+            <a href="/post/{{ item.pk }}" class="item__post-link">
               <img src="{{ item.pic }}" alt="" width="348" class="item__post-img">
             </a>
             <p class="item__descr">{{ item.content }}</p>

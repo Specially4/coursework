@@ -1,5 +1,6 @@
 import pytest
 from utils import LoadJSON
+from run import app
 
 DATA_PATH = "data/data.json"
 COMMENTS_PATH = "data/comments.json"
@@ -51,3 +52,26 @@ def test_search_for_posts():
 def test_get_post_by_pk():
     for post_pk in posts_pk:
         assert post_pk == load_json_data.get_post_by_pk(post_pk)['pk']
+
+
+def test_type_json():
+    response = app.test_client().get('/api/posts', follow_redirects=True)
+    assert type(response.json) == list
+
+
+def test_key_json():
+    response = app.test_client().get('/api/posts', follow_redirects=True)
+    for item in response.json:
+        for key in key_data:
+            assert key in item
+
+
+def test_type_json_pk():
+    response = app.test_client().get('/api/post/7', follow_redirects=True)
+    assert type(response.json) == dict
+
+
+def test_key_json_pk():
+    response = app.test_client().get('/api/post/7', follow_redirects=True)
+    for item in response.json.keys():
+        assert item in key_data

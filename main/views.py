@@ -20,6 +20,7 @@ stream_handler.setFormatter(formatter)
 
 @main_blueprint.route('/', methods=["GET"])
 def main_page():
+    """Данная функция выводит главную страничку"""
     try:
         return render_template('index.html', data=LoadJSON(DATA_PATH).get_posts(), length_bookmark=len(LoadJSON(BOOKMARKS_PATH).get_posts()))
     except FileNotFoundError:
@@ -33,6 +34,7 @@ def main_page():
 
 @main_blueprint.route('/search/')
 def search_page():
+    """Данная функция выводит страничку с поиском"""
     try:
         s = request.args.get("s", "").lower()
         data = LoadJSON(DATA_PATH).search_for_posts(s)
@@ -49,6 +51,7 @@ def search_page():
 
 @main_blueprint.route('/post/<int:pk>')
 def post_page(pk):
+    """Данная функция выводит страничку одного поста"""
     try:
         logger.info(f'Открыт пост с id: {pk}')
         return render_template('post.html', data=LoadJSON(DATA_PATH).get_post_by_pk(pk),
@@ -63,6 +66,7 @@ def post_page(pk):
 
 @main_blueprint.route('/users/<username>')
 def user_page(username):
+    """Данная функция выводит страничку с постами определенного пользователя"""
     try:
         return render_template('user-feed.html', data=LoadJSON(DATA_PATH).get_posts_by_user(username))
     except FileNotFoundError:
@@ -74,4 +78,5 @@ def user_page(username):
 
 @main_blueprint.route('/tag/<tag>')
 def tag_page(tag):
+    """Данная функция выводит страничку с постами по тегу"""
     return render_template('tag.html', data=LoadJSON(DATA_PATH).search_for_posts(tag), tag=tag)

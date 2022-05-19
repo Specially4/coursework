@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, Blueprint, jsonify
+from flask import Flask, render_template, request, Blueprint, redirect
 import logging
-from config import *
+from config_path import *
 from utils import LoadJSON
 from json import JSONDecodeError
 
 main_blueprint = Blueprint('main_blueprint', __name__, template_folder='templates')
-
 logger = logging.getLogger("basic")
 logger.setLevel("DEBUG")
 
@@ -19,18 +18,17 @@ logger.addHandler(file_handler)
 formatter = logging.Formatter("%(levelname)s %(asctime)s : %(message)s  %(pathname)s >> %(funcName)s")
 stream_handler.setFormatter(formatter)
 
-
-@main_blueprint.route('/')
+@main_blueprint.route('/', methods=["GET"])
 def main_page():
-    logger.info("Открытие главной страницы")
     try:
-        return render_template('index.html', data=LoadJSON(DATA_PATH).get_posts())
+        return render_template('index.html', data=LoadJSON(DATA_PATH).get_posts(), length_bookmark=len(LoadJSON(BOOKMARKS_PATH).get_posts()))
     except FileNotFoundError:
         logger.info("Не удалось найти файл, проверьте правильно ли указан путь.")
         return "Не удалось найти файл, проверьте правильно ли указан путь."
     except JSONDecodeError:
         logger.info("Не удалось открыть файл JSON")
         return "Не удалось открыть файл JSON"
+    logger.info("Открытие главной страницы")
 
 
 @main_blueprint.route('/search/')
@@ -74,12 +72,6 @@ def user_page(username):
         logger.info("Не удалось открыть файл JSON")
         return "Не удалось открыть файл JSON"
 
-
-@main_blueprint.route('/api/posts')
-def api_post():
-    return jsonify(LoadJSON(DATA_PATH).get_posts())
-
-
-@main_blueprint.route('/api/post/<int:pk>')
-def api_post_pk(pk):
-    return jsonify(LoadJSON(DATA_PATH).get_post_by_pk(pk))
+@main_blueprint.route('/tag/<tag>')
+def tag_page(tag):
+    return render_template('tag.html', data=LoadJSON(DATA_PATH).search_for_posts(tag), tag=tag)

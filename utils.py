@@ -1,5 +1,5 @@
 import json
-from config import *
+from config_path import *
 
 
 class LoadJSON:
@@ -14,6 +14,27 @@ class LoadJSON:
                 return data
         except:
             raise
+
+    def load_to_json(self, data):
+        with open(self.path, 'w', encoding='utf-8') as file:
+            return json.dump(data, file, indent=2, ensure_ascii=False)
+
+
+    def occurrence_check_pk(self, data):
+        all_posts = self.load_data()
+        bookmarks_pk = []
+        for item in all_posts:
+            bookmarks_pk.append(item['pk'])
+        if data['pk'] not in bookmarks_pk:
+            all_posts.append(data)
+            self.load_to_json(all_posts)
+
+    def delete_post(self, pk):
+        posts_list = []
+        for post in self.load_data():
+            if pk != post['pk']:
+                posts_list.append(post)
+        self.load_to_json(posts_list)
 
     def get_posts(self):
         data = self.load_data()
@@ -49,3 +70,5 @@ class LoadJSON:
         for item in self.load_data():
             if pk == item['pk']:
                 return item
+
+

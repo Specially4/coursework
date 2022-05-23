@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, Blueprint, redirect
 import logging
-from config_path import *
-from utils import LoadJSON
 from json import JSONDecodeError
+
+from config_path import DATA_PATH, BOOKMARKS_PATH, COMMENTS_PATH
+from utils import LoadJSON
 
 main_blueprint = Blueprint('main_blueprint', __name__, template_folder='templates')
 logger = logging.getLogger("basic")
@@ -11,7 +12,7 @@ logger.setLevel("DEBUG")
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-file_handler = logging.FileHandler("../logger.log", encoding="utf-8")
+file_handler = logging.FileHandler("logger.log", encoding="utf-8")
 logger.addHandler(file_handler)
 
 

@@ -13,4 +13,4 @@ COPY config_path.py .
 COPY utils.py .
 COPY app.py .
 
-CMD flask run -h 0.0.0.0 -p 80
+CMD gunicorn app:app -h 0.0.0.0 -p 80

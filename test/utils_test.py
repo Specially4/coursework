@@ -1,6 +1,6 @@
 import pytest
 from utils import LoadJSON
-from run import app
+from app import app
 
 DATA_PATH = "data/data.json"
 COMMENTS_PATH = "data/comments.json"

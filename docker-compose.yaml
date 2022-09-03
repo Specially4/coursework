@@ -1,0 +1,9 @@
+version: "3.10"
+
+services:
+  api:
+    build:
+      context: .
+    image: specially4/skypro_hw26_app
+    ports:
+    - 80:80

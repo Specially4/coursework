@@ -4,7 +4,6 @@ WORKDIR /code
 COPY data data
 COPY static statis
 COPY requirements.txt .
-RUN pip3.10 install gunicorn
 RUN pip install -r requirements.txt
 COPY api api
 COPY bookmarks bookmarks
@@ -14,6 +13,4 @@ COPY config_path.py .
 COPY utils.py .
 COPY app.py .
 
-CMD gunicorn app:app 0.0.0.0 -p 80
-
-
+CMD flask run -h 0.0.0.0 -p 80
